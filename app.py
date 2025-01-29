@@ -13,18 +13,19 @@ from streamlit_js_eval import get_geolocation
 import os
 
 
-
 @st.cache_resource
 def get_data_and_get_model():
-    
+    return YOLO(r"utils\models\potholes_model\best.pt")
+
+def load_pins():
     file_path = r"utils\data\pins.pkl"
     if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
         pins = []
     else:
         with open(file_path, "rb") as file:
             pins = pickle.load(file)
-            
-    return pins,YOLO(r"utils\models\potholes_model\best.pt")
+    return pins
+
 
 def pridect_ai(model, img: str):
     try:
@@ -57,7 +58,8 @@ def pridect_ai(model, img: str):
         st.error(f"Prediction failed: {str(e)}")
         return None, None
 
-pins ,model = get_data_and_get_model()
+pins = load_pins()
+model = get_data_and_get_model()
 
 st.title("Hello my website")
 
@@ -139,3 +141,5 @@ else:
     st.button("Close Map", on_click=toggle_map)
     st_folium(m, width=700, height=500)
 
+with open(r"utils\data\pins.pkl", "wb") as file:
+    pickle.dump(pins, file)
