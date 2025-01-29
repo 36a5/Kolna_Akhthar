@@ -11,10 +11,13 @@ from streamlit_folium import st_folium
 import pickle
 from streamlit_js_eval import get_geolocation
 
+
+
 @st.cache_resource
-def load_data_and_get_model():
-    
-    return YOLO(r"utils\models\potholes_model\best.pt")
+def get_data_and_get_model():
+    with open(r"utils\data\pins.pkl", "rb") as file:
+        pins = pickle.load(file)
+    return pins,YOLO(r"utils\models\potholes_model\best.pt")
 
 latitude1 = 24.790704
 longitude1 = 46.585779
@@ -34,12 +37,22 @@ def pridect_ai(model, img: str):
                 "confidence": float(box.conf),
                 "coordinates": box.xywh.tolist()[0]
             })
-        return detections, img
+        if not detections:
+            st.warning("No potholes detected.")
+            return detections, img
+        else:
+            location = get_geolocation()
+            if location:
+                lat, lon = location["coords"]["latitude"], location["coords"]["longitude"]
+
+            else:
+                st.write("Location access not granted or unavailable.")
+            return detections, img
     except Exception as e:
         st.error(f"Prediction failed: {str(e)}")
         return None, None
 
-model = load_data_and_get_model()
+pins ,model = get_data_and_get_model()
 
 st.title("Hello my website")
 
@@ -107,15 +120,13 @@ def image_popup(image_path):
     except Exception as e:
         return f"Error displaying image: {e}"
 
-data = pd.DataFrame([{"lat": 33, "lon": 0, "name": "Sample Point 1", "description": "This is a sample point 1.", "image_path": r"utils\public\images\1.jpg"}])
+data = pd.DataFrame(pins)
 data['image'] = data['image_path'].apply(image_popup)
 
 m = folium.Map(location=[33, 0], zoom_start=5)
 
 for _, row in data.iterrows():
     popup_html = f"""
-    <b>{row['name']}</b><br>
-    {row['description']}<br>
     {row['image']}
     """
     folium.Marker(
@@ -128,3 +139,4 @@ if st.session_state["show_map"] == False:
 else:
     st.button("Close Map", on_click=toggle_map)
     st_folium(m, width=700, height=500)
+
