@@ -58,7 +58,7 @@ def on_click():
     st.session_state.run_camera = True
 
 if "x" not in st.session_state:
-    st.session_state.x = 0
+    st.session_state.x = len(pins)
 
 if "capture" not in st.session_state:
     st.session_state["capture"] = []
@@ -118,6 +118,7 @@ m = folium.Map(location=[24.7136, 46.6753], zoom_start=5)
 
 for _, row in data.iterrows():
     popup_html = f"""
+    {row['lat']},{row['lon']}
     {row['image']}
     """
     folium.Marker(
