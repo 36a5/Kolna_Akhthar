@@ -7,8 +7,6 @@
 
 ## Project Overview
 
-## Project Overview
-
 We utilized a YOLO11 model, training it on images of potholes and roads to detect potholes using OpenCV. The project aims to contribute to the greening of Saudi Arabia, aligning with the motto "Kolna Akhthar".
 
 ### Project Details
@@ -21,6 +19,8 @@ We are students from King Saud University (KSU) studying Data Science and Machin
 
 ### Note
 - Waste detection and greenery percentage features will be added soon.
+
+This is an underdevelopment project, and we are going to add a lot of features in the future, إن شاء الله.
 
 For more details, please refer to the project files.
 
