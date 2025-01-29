@@ -67,6 +67,6 @@ This project is not licensed under the MIT License.
 ## Contact
 
 For any questions or suggestions, please contact us at:
-- abdullrahman.alajlan@example.com
+- abdullrahman.alajlan@gmail.com
 - abdulrhman.salamah0@gmail.com
 - abdulrahman.wadani@example.com
