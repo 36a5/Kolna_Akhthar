@@ -59,7 +59,7 @@ def camera():
             st.session_state.x +=1
             detections, processed_image = pridect_ai(model, frame)
             if processed_image is not None:
-                cv2.imwrite(f"./public/captured_image{st.session_state.x}.jpg",processed_image)
+                cv2.imwrite(f"utils/public/images{st.session_state.x}.jpg",processed_image)
 
             st.image(frame, channels="BGR")
             st.session_state.capture.append(processed_image)
