@@ -19,9 +19,6 @@ def get_data_and_get_model():
         pins = pickle.load(file)
     return pins,YOLO(r"utils\models\potholes_model\best.pt")
 
-latitude1 = 24.790704
-longitude1 = 46.585779
-
 def pridect_ai(model, img: str):
     try:
         results = model(img)
@@ -38,13 +35,14 @@ def pridect_ai(model, img: str):
                 "coordinates": box.xywh.tolist()[0]
             })
         if not detections:
-            st.warning("No potholes detected.")
             return detections, img
         else:
             location = get_geolocation()
             if location:
                 lat, lon = location["coords"]["latitude"], location["coords"]["longitude"]
-
+                pins.append({"lat": lat, "lon": lon, "image_path": f"utils/public/images/{st.session_state.x}.jpg"})
+                with open(r"utils\data\pins.pkl", "wb") as file:
+                    pickle.dump(pins, file)
             else:
                 st.write("Location access not granted or unavailable.")
             return detections, img
@@ -95,13 +93,6 @@ with col2:
 
 camera()
 
-def new_point(latitude: float, longitude: float):
-    return pd.DataFrame({
-        'lat': [latitude],
-        'lon': [longitude],
-        'size': [1.0],
-    })
-
 if "show_map" not in st.session_state:
     st.session_state["show_map"] = False
 
@@ -123,7 +114,7 @@ def image_popup(image_path):
 data = pd.DataFrame(pins)
 data['image'] = data['image_path'].apply(image_popup)
 
-m = folium.Map(location=[33, 0], zoom_start=5)
+m = folium.Map(location=[24.7136, 46.6753], zoom_start=5)
 
 for _, row in data.iterrows():
     popup_html = f"""
