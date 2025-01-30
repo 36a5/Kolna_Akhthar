@@ -18,17 +18,17 @@ import base64
 
 @st.cache_resource
 def get_data_and_get_model():
-    return YOLO(r"D:\Dev\final_project_sdaia\Kolna_Akhthar\utils\models\all\best.pt")
+    return YOLO(r".\utils\models\all\best.pt")
     
 
 def set_bg_and_css():
  
-    with open("static/background.webp", "rb") as f:
+    with open(r".\utils\style\background.png", "rb") as f:
         data = f.read()
     b64 = base64.b64encode(data).decode()
     
     # تحميل CSS الخارجي
-    with open("style.css", "r", encoding="utf-8") as f:
+    with open(r".\utils\style\style.css", "r", encoding="utf-8") as f:
         css = f.read()
     
     # دمج الاثنين
@@ -115,7 +115,7 @@ def on_click():
     st.session_state.run_camera = True
 
 if "x" not in st.session_state:
-    if os.listdir("utils/public/images")[-1].split(".")[0].isdigit():
+    if os.listdir("utils/public/images"):
         st.session_state.x = int(os.listdir("utils/public/images")[-1].split(".")[0])
     else:
         st.session_state.x = 0
