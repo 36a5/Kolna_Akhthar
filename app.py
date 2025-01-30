@@ -18,7 +18,7 @@ import base64
 
 @st.cache_resource
 def get_data_and_get_model():
-    return YOLO(r".\utils\models\all\best.pt")
+    return YOLO(r".\utils\models\potholes_model\best.pt")
     
 
 def set_bg_and_css():
@@ -167,7 +167,7 @@ data = pd.DataFrame(pins)
 if data.empty!=True:
         data['image'] = data['image_path'].apply(image_popup)
 
-m = folium.Map(location=[24.7136, 46.6753], zoom_start=5)
+m = folium.Map(location=[24.564751, 46.904795], zoom_start=10)
 
 for _, row in data.iterrows():
     popup_html = f"""
@@ -180,9 +180,8 @@ for _, row in data.iterrows():
     icon=folium.Icon(
         icon='map-marker-alt',
         prefix='fa',
-        icon_color='white',
-        color='#e74c3c',
-        icon_size=(30, 30),
+        icon_color='green',
+        icon_size=(10, 10),
     )
 ).add_to(m)
     
