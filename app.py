@@ -43,7 +43,7 @@ def pridect_ai(model, img: str):
                 "coordinates": box.xywh.tolist()[0]
             })
         if not detections:
-            return detections, img
+            return detections, img, False
         else:
             location = get_geolocation()
             if location:
@@ -53,10 +53,10 @@ def pridect_ai(model, img: str):
                     pickle.dump(pins, file)
             else:
                 st.write("Location access not granted or unavailable.")
-            return detections, img
+            return detections, img , True
     except Exception as e:
         st.error(f"Prediction failed: {str(e)}")
-        return None, None
+        return None, None , False
 
 pins = load_pins()
 model = get_data_and_get_model()
@@ -67,7 +67,10 @@ def on_click():
     st.session_state.run_camera = True
 
 if "x" not in st.session_state:
-    st.session_state.x = len(pins)
+    if os.listdir("utils/public/images")[-1].split(".")[0].isdigit():
+        st.session_state.x = int(os.listdir("utils/public/images")[-1].split(".")[0])
+    else:
+        st.session_state.x = 0
 
 if "capture" not in st.session_state:
     st.session_state["capture"] = []
@@ -80,9 +83,9 @@ def camera():
         ret, frame = cap.read()
         
         if ret:
-            st.session_state.x += 1
-            detections, processed_image = pridect_ai(model, frame)
-            if processed_image is not None:
+            detections, processed_image, isdetected = pridect_ai(model, frame)
+            if processed_image is not None and isdetected:
+                st.session_state.x += 1
                 cv2.imwrite(f"utils/public/images/{st.session_state.x}.jpg", processed_image)
 
             st.image(frame, channels="BGR")
@@ -121,7 +124,8 @@ def image_popup(image_path):
         return f"Error displaying image: {e}"
 
 data = pd.DataFrame(pins)
-data['image'] = data['image_path'].apply(image_popup)
+if data.empty!=True:
+        data['image'] = data['image_path'].apply(image_popup)
 
 m = folium.Map(location=[24.7136, 46.6753], zoom_start=5)
 
