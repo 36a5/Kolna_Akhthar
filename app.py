@@ -15,7 +15,7 @@ import os
 
 @st.cache_resource
 def get_data_and_get_model():
-    return YOLO(r"utils\models\potholes_model\best.pt")
+    return YOLO(r"utils\models\all\best.pt")
 
 def load_pins():
     file_path = r"utils\data\pins.pkl"
