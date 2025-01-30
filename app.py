@@ -11,11 +11,59 @@ from streamlit_folium import st_folium
 import pickle
 from streamlit_js_eval import get_geolocation
 import os
+import base64
+
+
 
 
 @st.cache_resource
 def get_data_and_get_model():
-    return YOLO(r"utils\models\all\best.pt")
+    return YOLO(r"D:\Dev\final_project_sdaia\Kolna_Akhthar\utils\models\all\best.pt")
+    
+
+def set_bg_and_css():
+ 
+    with open("static/background.webp", "rb") as f:
+        data = f.read()
+    b64 = base64.b64encode(data).decode()
+    
+    # تحميل CSS الخارجي
+    with open("style.css", "r", encoding="utf-8") as f:
+        css = f.read()
+    
+    # دمج الاثنين
+    custom_style = f"""
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap');
+
+        {css}
+         .folium-map {{
+            border-radius: 20px !important;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2) !important;
+            border: 3px solid #ffffff !important;
+        }}
+        
+         .leaflet-popup-content-wrapper {{
+            border-radius: 200px !important;
+            background: #f8f9fa !important;
+        }}
+        
+        div[data-testid="stVerticalBlock"] > button[kind="header"] {{
+            background: #e74c3c !important;
+            color: white !important;
+        }}
+        
+        
+        .stApp {{
+            background: url("data:image/png;base64,{b64}") !important;
+
+        }}
+        </style>
+    """
+    st.markdown(custom_style, unsafe_allow_html=True)
+
+set_bg_and_css()
+
 
 def load_pins():
     file_path = r"utils\data\pins.pkl"
@@ -61,7 +109,7 @@ def pridect_ai(model, img: str):
 pins = load_pins()
 model = get_data_and_get_model()
 
-st.title("Hello my website")
+
 
 def on_click():
     st.session_state.run_camera = True
@@ -93,17 +141,9 @@ def camera():
         time.sleep(0.5)
         st.rerun()
 
-col1, col2 = st.columns(2)
-with col1:
-    if st.button("Start Capture", on_click=on_click):
-        pass
 
-with col2:
-    if st.session_state.get("run_camera", False):
-        if st.button("Close Camera"):
-            st.session_state.run_camera = False
 
-camera()
+
 
 if "show_map" not in st.session_state:
     st.session_state["show_map"] = False
@@ -135,15 +175,44 @@ for _, row in data.iterrows():
     {row['image']}
     """
     folium.Marker(
-        location=[row['lat'], row['lon']],
-        popup=folium.Popup(popup_html, max_width=300)
-    ).add_to(m)
+    location=[row['lat'], row['lon']],
+    popup=folium.Popup(popup_html, max_width=400),
+    icon=folium.Icon(
+        icon='map-marker-alt',
+        prefix='fa',
+        icon_color='white',
+        color='#e74c3c',
+        icon_size=(30, 30),
+    )
+).add_to(m)
+    
+m_col1, m_col2 = st.columns(2)
+with m_col1:    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Start Capture", on_click=on_click):
+            pass
 
-if st.session_state["show_map"] == False:
-    st.button("View Map", on_click=toggle_map)
-else:
-    st.button("Close Map", on_click=toggle_map)
-    st_folium(m, width=700, height=500)
+    with col2:
+        if st.session_state.get("run_camera", False):
+            if st.button("Close Camera"):
+                st.session_state.run_camera = False
 
-with open(r"utils\data\pins.pkl", "wb") as file:
-    pickle.dump(pins, file)
+    camera()
+with m_col2:
+    if st.session_state["show_map"] == False:
+        st.button("View Map", on_click=toggle_map)
+    else:
+        st.button("Close Map", on_click=toggle_map)
+        
+        st_folium(m, width=680,
+                    height=680
+                    ,returned_objects=[],
+                     key='enhanced_map')
+                    
+
+    with open(r"utils\data\pins.pkl", "wb") as file:
+        pickle.dump(pins, file)
+        
+        
+        

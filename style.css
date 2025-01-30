@@ -1,0 +1,263 @@
+/* styles.css */
+
+/* تهيئة عامة للصفحة */
+/* styles.css */
+
+/* تهيئة عامة للصفحة */
+.stApp {
+    background-image: url("background.png");
+    background-size: cover;        /* تغطي الصفحة بالكامل دون تشويه */
+    background-position: center;   /* توسيط الصورة */
+    background-repeat: no-repeat;  /* منع التكرار */
+    background-attachment: fixed;  /* ثبات الصورة أثناء التمرير */
+    min-height: 100vh;
+    position: relative;
+    z-index: 0;
+    background-blend-mode: overlay; /* مزج الألوان مع الخلفية */
+}
+
+/* طبقة شبه شفافة فوق الخلفية */
+.stApp::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: -1;
+}
+
+/* تحسينات إضافية للعناصر */
+.main .block-container {
+    backdrop-filter: blur(5px);    /* تأثير ضبابي للخلفية */
+    background-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* تحسين رؤية النصوص */
+h1, h2, h3, p, li {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+/* تنسيق الأزرار */
+.stButton>button {
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+    background-color: transparent !important;
+    border-radius: 25px !important;
+    padding: 12px 30px !important;
+    font-weight: bold !important;
+    transition: all 0.3s ease !important;
+    margin: 0 auto !important;
+    display: block !important;
+    min-width: 200px !important;
+}
+
+.stButton>button:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transform: scale(1.05) !important;
+}
+
+/* تنسيق النصوص عند التمرير */
+.main .block-container {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    color: #000000 !important;
+}
+
+/* تنسيق العناوين */
+
+
+/* تنسيق حقول الإدخال */
+.stTextInput>div>div>input {
+    border: 2px solid #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+}
+
+/* تنسيق القوائم المنسدلة */
+.stSelectbox>div>div>div {
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+}
+
+/* تنسيق التمرير (Scrollbar) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border-radius: 4px;
+}
+
+/* تأثيرات تفاعلية للبطاقات */
+.stCard {
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.stCard:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+}
+
+.stAppHeader, .st-emotion-cache-h4xjwg, .e10jh26i0 {
+    display: none !important;
+}
+
+.st-emotion-cache-1cypcdb {
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100vh !important;
+}
+
+.st-emotion-cache-1hgxyac {
+    gap: 2rem !important;
+}
+
+/* تنسيق الكارد الجديد تحت الصورة */
+.image-card {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 15px !important;
+    padding: 2rem !important;
+    margin: 2rem auto !important;
+    max-width: 800px !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.leaflet-container {
+    background: rgba(255,255,255,0.9) !important;
+    backdrop-filter: blur(5px) !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+}
+
+/* تنسيق محتوى الكارد */
+.custom-card {
+    background: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    color: white !important;
+}
+
+.stFolium {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 90vw !important;  /* 90% من عرض النافذة */
+    height: 80vh !important; /* 80% من ارتفاع النافذة */
+    z-index: 9999 !important;
+    border: 3px solid #ffffff !important;
+    border-radius: 20px !important;
+    box-shadow: 0 0 30px rgba(0,0,0,0.3) !important;
+}
+
+.leaflet-control-attribution {
+    display: none !important;
+}
+
+/* تحسين النوافذ المنبثقة */
+.leaflet-popup-content {
+    font-family: 'Tajawal', sans-serif !important;
+    direction: rtl !important;
+    text-align: right !important;
+    padding: 15px !important;
+    min-width: 250px !important;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 15px !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15) !important;
+    background: #f8f9fa !important;
+}
+
+.leaflet-popup-tip {
+    background: #f8f9fa !important;
+}
+
+/* تنسيق الصور داخل النوافذ */
+.leaflet-popup-content img {
+    border-radius: 10px !important;
+    margin: 10px 0 !important;
+    border: 2px solid #e9ecef !important;
+    transition: transform 0.3s ease !important;
+}
+
+.leaflet-popup-content img:hover {
+    transform: scale(1.05) !important;
+}
+
+/* تخصيص العلامات (Markers) */
+.leaflet-marker-icon {
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2)) !important;
+    transition: transform 0.2s ease !important;
+}
+
+.leaflet-marker-icon:hover {
+    transform: scale(1.2) rotate(-15deg) !important;
+}
+
+/* تنسيق أزرار التحكم في الخريطة */
+.leaflet-control-zoom {
+    border: none !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.leaflet-control-zoom a {
+    background: #ffffff !important;
+    color: #2c3e50 !important;
+    border-bottom: 1px solid #eee !important;
+    transition: all 0.3s ease !important;
+}
+
+.folium-map {
+    width: 100% !important;
+    height: 70vh !important;
+    transform: scale(1) !important;
+    transform-origin: top left !important;
+    overflow: visible !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background: #f8f9fa !important;
+    color: #e74c3c !important;
+}
+
+/* تنسيق شريط المقياس */
+.leaflet-control-scale {
+    background: rgba(255,255,255,0.9) !important;
+    border-radius: 5px !important;
+    padding: 5px 10px !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+}
+
+button[data-testid="baseButton-header"] {
+    background: linear-gradient(45deg, #e74c3c, #c0392b) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 25px !important;
+    padding: 12px 25px !important;
+    font-weight: bold !important;
+    transition: all 0.3s ease !important;
+}
+
+button[data-testid="baseButton-header"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3) !important;
+}
